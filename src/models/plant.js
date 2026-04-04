@@ -15,13 +15,7 @@ const plantSchema = new mongoose.Schema({
   },
 });
 
-plantSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    return next();
-  }
-  //TODO: Add salt and hash password
-  next();
-});
+
 
 const Plant = mongoose.model("Plant", plantSchema);
 
