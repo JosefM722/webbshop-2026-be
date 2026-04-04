@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import authRouter from "./routes/auth.js";
 import cors from "cors";
+import plantRouter from "./routes/plants.js";
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.get("/", (req, res) => {
 });*/
 
 app.use("/auth", authRouter);
+app.use("/plants", plantRouter);
 
 //TODO: Add more routes as needed
 
