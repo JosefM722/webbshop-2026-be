@@ -1,7 +1,6 @@
 import "dotenv/config";
 import express from "express";
 import mongoose from "mongoose";
-import productsRouter from "./routes/products.js";
 import authRouter from "./routes/auth.js";
 import cors from "cors";
 
@@ -33,12 +32,12 @@ app.get("/", (req, res) => {
   res.json({ message: "Webbshop API", stack: "MEN (MongoDB, Express, Node.js)" });
 });
 
-app.get("/health", (req, res) => {
+/*app.get("/health", (req, res) => {
   res.json({ status: "ok" });
-});
+});*/
 
-app.use("/products", productsRouter);
 app.use("/auth", authRouter);
+
 //TODO: Add more routes as needed
 
 export default app;
