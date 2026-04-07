@@ -20,3 +20,4 @@ export const validateAuthResult = (req, res, next) => {
   }
   next();
 };
+

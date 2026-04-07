@@ -1,0 +1,114 @@
+{
+  "info": {
+    "_postman_id": "5f829f70-3094-4251-b505-0436a1aa4d9e",
+    "name": "plot twist",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52732733",
+    "_collection_link": "https://go.postman.co/collection/52732733-5f829f70-3094-4251-b505-0436a1aa4d9e?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "authentication",
+      "item": [
+        {
+          "name": "register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"sdfsdkjf\",\r\n    \"email\": \"emaila1@mail.com\",\r\n    \"password\": \"sdflsdf\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "request": {
+            "auth": {
+              "type": "jwt",
+              "jwt": [
+                {
+                  "key": "payload",
+                  "value": "{eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWNkMmZlNTQ2NDMwNWNjYmIwNTU0MjEiLCJpYXQiOjE3NzUwODA0MzIsImV4cCI6MTc3NTE2NjgzMn0.MG6XAbNVSTxCmv8bjUd0iZ76-2Wc9pVn7wDQIqQL89o}",
+                  "type": "string"
+                },
+                {
+                  "key": "algorithm",
+                  "value": "HS256",
+                  "type": "string"
+                },
+                {
+                  "key": "isSecretBase64Encoded",
+                  "value": false,
+                  "type": "boolean"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "headerPrefix",
+                  "value": "Bearer",
+                  "type": "string"
+                },
+                {
+                  "key": "queryParamKey",
+                  "value": "token",
+                  "type": "string"
+                },
+                {
+                  "key": "header",
+                  "value": "{}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"sdfsdkjf\", \"email\": \"emaila1@mail.com\", \"password\": \"sdflsdf\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

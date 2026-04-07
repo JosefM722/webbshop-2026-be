@@ -1,75 +1,87 @@
-import plant from '../models/plant.js';
-import { Router } from 'express';
+import { Router } from "express";
+import authMiddleware from "../middleware/authMiddleware.js";
+import {
+  createPlant,
+  getAllAvailablePlants,
+  getPlantById,
+  updatePlant,
+  deletePlant,
+} from "../db/plants.js";
 
 const router = Router();
+router.use(authMiddleware);
 
-// Get all plants
-router.get('/', async (req, res) => {
+// GET all available plants
+router.get("/", async (req, res) => {
   try {
-    const plants = await plant.find(); 
+    const plants = await getAllAvailablePlants();
     res.json(plants);
   } catch (error) {
-    console.error('Error fetching plants:', error);
-    res.status(500).json({ error: 'Failed to fetch plants' });
+    console.error("Error fetching plants:", error);
+    res.status(500).json({ error: "Failed to fetch plants" });
   }
 });
 
-// Get a plant by ID
-router.get('/:id', async (req, res) => {
+// GET plant by ID
+router.get("/:id", async (req, res) => {
   try {
-    const plantId = req.params.id;
-    const plantData = await plant.findById(plantId);
-    if (!plantData) {
-      return res.status(404).json({ error: 'Plant not found' });
-    }
-    res.json(plantData);
+    const plant = await getPlantById(req.params.id);
+    if (!plant) return res.status(404).json({ error: "Plant not found" });
+    res.json(plant);
   } catch (error) {
-    console.error('Error fetching plant:', error);
-    res.status(500).json({ error: 'Failed to fetch plant' });
-  }
-}); 
-// Create a new plant
-router.post('/', async (req, res) => {
-  try {
-    const { name, price, description } = req.body; 
-    const newPlant = new plant({ name, price, description });
-    const savedPlant = await newPlant.save();
-    res.status(201).json(savedPlant);
-  } catch (error) {
-    console.error('Error creating plant:', error);
-    res.status(500).json({ error: 'Failed to create plant' });
+    console.error("Error fetching plant:", error);
+    res.status(500).json({ error: "Failed to fetch plant" });
   }
 });
 
-// Update a plant by ID
-router.put('/:id', async (req, res) => {
+// CREATE plant
+router.post("/", async (req, res) => {
   try {
-    const plantId = req.params.id;
-    const { name, price, description } = req.body; 
-    const updatedPlant = await plant.findByIdAndUpdate(plantId, { name, price, description }, { new: true });
-    if (!updatedPlant) {
-      return res.status(404).json({ error: 'Plant not found' });
-    }  
+    const { name, description, image, lightLevel, location } = req.body;
+    const newPlant = await createPlant({
+      name,
+      description,
+      image,
+      lightLevel,
+      location,
+      owner: req.user._id,
+    });
+    res.status(201).json(newPlant);
+  } catch (error) {
+    console.error("Error creating plant:", error);
+    res.status(500).json({ error: "Failed to create plant" });
+  }
+});
+
+// UPDATE plant
+router.put("/:id", async (req, res) => {
+  try {
+    const { name, description, image, lightLevel, location } = req.body;
+    const updatedPlant = await updatePlant(req.params.id, {
+      name,
+      description,
+      image,
+      lightLevel,
+      location,
+    });
+    if (!updatedPlant) return res.status(404).json({ error: "Plant not found" });
     res.json(updatedPlant);
-    } catch (error) {
-    console.error('Error updating plant:', error);
-    res.status(500).json({ error: 'Failed to update plant' });
+  } catch (error) {
+    console.error("Error updating plant:", error);
+    res.status(500).json({ error: "Failed to update plant" });
   }
 });
 
-// Delete a plant by ID
-router.delete('/:id', async (req, res) => {
+// DELETE plant
+router.delete("/:id", async (req, res) => {
   try {
-    const plantId = req.params.id;
-    const deletedPlant = await plant.findByIdAndDelete(plantId);
-    if (!deletedPlant) {
-      return res.status(404).json({ error: 'Plant not found' });
-    }
-    res.json({ message: 'Plant deleted successfully' });
+    const deletedPlant = await deletePlant(req.params.id);
+    if (!deletedPlant) return res.status(404).json({ error: "Plant not found" });
+    res.json({ message: "Plant deleted successfully" });
   } catch (error) {
-    console.error('Error deleting plant:', error);
-    res.status(500).json({ error: 'Failed to delete plant' });
-  } 
+    console.error("Error deleting plant:", error);
+    res.status(500).json({ error: "Failed to delete plant" });
+  }
 });
 
 export default router;
