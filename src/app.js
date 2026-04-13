@@ -4,6 +4,10 @@ import mongoose from "mongoose";
 import authRouter from "./routes/auth.js";
 import cors from "cors";
 import plantRouter from "./routes/plants.js";
+import dotenv from "dotenv";
+
+dotenv.config();
+
 
 const app = express();
 
