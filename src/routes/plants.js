@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
       image,
       lightLevel,
       location,
-      owner: req.user._id,
+      owner: req.user.id,
     });
     res.status(201).json(newPlant);
   } catch (error) {

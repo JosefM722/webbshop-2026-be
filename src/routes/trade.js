@@ -20,13 +20,13 @@ router.post("/", async (req, res) => {
     const plant = await getPlantById(plantId);
     if (!plant) return res.status(404).json({ error: "Plant not found" });
 
-    if (plant.owner._id.toString() === req.user._id.toString()) {
+    if (plant.owner._id.toString() === req.user.id.toString()) {
       return res.status(400).json({ error: "You cannot trade your own plant" });
     }
 
     const newTrade = await createTrade({
       plant: plantId,
-      requester: req.user._id,
+      requester: req.user.id,
       owner: plant.owner._id,
       status: "pending",
     });
@@ -41,7 +41,7 @@ router.post("/", async (req, res) => {
 // GET MY TRADES
 router.get("/my", async (req, res) => {
   try {
-    const trades = await getUserTrades(req.user._id);
+    const trades = await getUserTrades(req.user.id);
     res.json(trades);
   } catch (error) {
     console.error("Error fetching trades:", error);
@@ -55,7 +55,7 @@ router.post("/:id/approve", async (req, res) => {
     const trade = await getTradeById(req.params.id);
     if (!trade) return res.status(404).json({ error: "Trade not found" });
 
-    if (trade.owner._id.toString() !== req.user._id.toString()) {
+    if (trade.owner._id.toString() !== req.user.id.toString()) {
       return res.status(403).json({ error: "Only the owner can approve this trade" });
     }
 
@@ -78,8 +78,8 @@ router.post("/:id/complete", async (req, res) => {
     if (!trade) return res.status(404).json({ error: "Trade not found" });
 
     if (
-      trade.owner._id.toString() !== req.user._id.toString() &&
-      trade.requester._id.toString() !== req.user._id.toString()
+      trade.owner._id.toString() !== req.user.id.toString() &&
+      trade.requester._id.toString() !== req.user.id.toString()
     ) {
       return res.status(403).json({ error: "Not authorized" });
     }
@@ -107,8 +107,8 @@ router.post("/:id/cancel", async (req, res) => {
     if (!trade) return res.status(404).json({ error: "Trade not found" });
 
     if (
-      trade.owner._id.toString() !== req.user._id.toString() &&
-      trade.requester._id.toString() !== req.user._id.toString()
+      trade.owner._id.toString() !== req.user.id.toString() &&
+      trade.requester._id.toString() !== req.user.id.toString()
     ) {
       return res.status(403).json({ error: "Not authorized to cancel" });
     }
