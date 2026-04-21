@@ -5,6 +5,7 @@ import authRouter from "./routes/auth.js";
 import cors from "cors";
 import plantRouter from "./routes/plants.js";
 import tradeRouter from "./routes/trade.js";
+import userRouter from "./routes/users.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -45,6 +46,7 @@ app.get("/", (req, res) => {
 app.use("/auth", authRouter);
 app.use("/plants", plantRouter);
 app.use("/trades", tradeRouter);
+app.use("/users", userRouter);
 
 //TODO: Add more routes as needed
 

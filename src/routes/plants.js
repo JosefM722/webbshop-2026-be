@@ -9,7 +9,7 @@ import {
 } from "../db/plants.js";
 
 const router = Router();
-router.use(authMiddleware);
+
 
 // GET all available plants
 router.get("/", async (req, res) => {
@@ -17,7 +17,6 @@ router.get("/", async (req, res) => {
     const plants = await getAllAvailablePlants();
     res.json(plants);
   } catch (error) {
-    console.error("Error fetching plants:", error);
     res.status(500).json({ error: "Failed to fetch plants" });
   }
 });
@@ -29,13 +28,12 @@ router.get("/:id", async (req, res) => {
     if (!plant) return res.status(404).json({ error: "Plant not found" });
     res.json(plant);
   } catch (error) {
-    console.error("Error fetching plant:", error);
     res.status(500).json({ error: "Failed to fetch plant" });
   }
 });
 
 // CREATE plant
-router.post("/", async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
   try {
     const { name, description, image, lightLevel, location } = req.body;
     const newPlant = await createPlant({
@@ -48,38 +46,28 @@ router.post("/", async (req, res) => {
     });
     res.status(201).json(newPlant);
   } catch (error) {
-    console.error("Error creating plant:", error);
     res.status(500).json({ error: "Failed to create plant" });
   }
 });
 
 // UPDATE plant
-router.put("/:id", async (req, res) => {
+router.put("/:id", authMiddleware, async (req, res) => {
   try {
-    const { name, description, image, lightLevel, location } = req.body;
-    const updatedPlant = await updatePlant(req.params.id, {
-      name,
-      description,
-      image,
-      lightLevel,
-      location,
-    });
+    const updatedPlant = await updatePlant(req.params.id, req.body);
     if (!updatedPlant) return res.status(404).json({ error: "Plant not found" });
     res.json(updatedPlant);
   } catch (error) {
-    console.error("Error updating plant:", error);
     res.status(500).json({ error: "Failed to update plant" });
   }
 });
 
 // DELETE plant
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const deletedPlant = await deletePlant(req.params.id);
     if (!deletedPlant) return res.status(404).json({ error: "Plant not found" });
     res.json({ message: "Plant deleted successfully" });
   } catch (error) {
-    console.error("Error deleting plant:", error);
     res.status(500).json({ error: "Failed to delete plant" });
   }
 });

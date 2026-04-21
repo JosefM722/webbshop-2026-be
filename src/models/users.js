@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
   email: {
     type: String,
     required: true,
@@ -13,10 +14,18 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     trim: true,
   },
+
   password: {
     type: String,
     required: true,
   },
+
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
+  },
+
   plants: [
     {
       type: mongoose.Schema.Types.ObjectId,
