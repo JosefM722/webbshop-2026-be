@@ -10,7 +10,15 @@ const authMiddleware = async (req, res, next) => {
     if (!token) return res.status(401).json({ error: "Invalid token" });
 
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    req.user = { id: decoded.userId };
+    
+    const isAdmin = await User.findById(decoded.userId).select("role");
+    
+    if (isAdmin.role === "admin") {
+       req.user = { id: decoded.userId, role: "admin" };
+    } else {
+      req.user = { id: decoded.userId, role: "user" };
+
+    }
     if (!req.user) return res.status(401).json({ error: "User not found" });
 
     next();
