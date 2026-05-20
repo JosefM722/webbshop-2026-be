@@ -1,46 +1,59 @@
-# Webbshop 2026 - Backend (MEN Stack)
+# Webshop 2026 - Backend API
 
-**MEN Stack:** MongoDB · Express · Node.js
+A backend API for an e-commerce application built with the MEN stack (MongoDB, Express, Node.js).
+
+## Features
+- REST API structure
+- MongoDB database integration
+- Express server setup
+- Environment configuration
+- Health check endpoint
+- Scalable backend structure
+
+## Tech Stack
+- MongoDB
+- Express.js
+- Node.js
+- JavaScript
 
 ## Setup
 
-1. **Install dependencies**
-   ```bash
-   npm install
-   ```
-   *Note: `mongodb-memory-server` is used for testing. It is very heavy and therefore will take a lot of time to install.*
+1. Install dependencies
 
-2. **Configure environment**
-   ```bash
-   cp .env.example .env
-   ```
-   Edit `.env` if needed (e.g. MongoDB connection string).
-
-   *Note: MongoDB is required to be installed and running locally or on Atlas.*
-
-3. **Start MongoDB** (must be running locally or use Atlas)
-   ```bash
-   # If using local MongoDB
-   mongod --dbpath <path to data directory>
-   ```
-
-4. **Run the server**
-   ```bash
-   npm run dev    # Development with auto-reload
-   npm start      # Production
-   ```
-
-## API
-
-- `GET /` — API info
-- `GET /health` — Health check
-
-## Project structure
-
+```bash
+npm install
 ```
+
+2. Configure environment
+
+```bash
+cp .env.example .env
+```
+
+3. Start MongoDB locally or use MongoDB Atlas.
+
+4. Run the server
+
+```bash
+npm run dev
+npm start
+```
+
+## API Endpoints
+
+- GET `/`
+- GET `/health`
+
+## Project Structure
+
+```bash
 src/
 ├── config/
-│   └── database.js   # MongoDB connection
-├── server.js         # Express app entry
-└── (add: routes/, models/, controllers/)
+├── server.js
 ```
+
+## Future Improvements
+- Add authentication
+- Add product management
+- Improve validation
+- Add order functionality
